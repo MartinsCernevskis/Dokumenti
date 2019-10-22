@@ -10,21 +10,21 @@ public class Main {
 
 
     public static void main(String[] args) {
-        System.out.println("Enter a command. Type help for help. Exit for exit. Create to create new");
+        System.out.println("Enter a command.\nType HELP for help.\nType CREATE to create new\nType LIST to create new list\nType EXIT for exit.\n");
         for (; ; ) {
             System.out.print("> ");
             String cmd = scan.next();
             switch (cmd) {
-                case "exit":
+                case "EXIT":
                     System.out.println("goodbye");
                     return;
-                case "help":
+                case "HELP":
                     showHelp();
                     break;
-                case "create":
+                case "CREATE":
                     createRecord();
                     break;
-                case "list":
+                case "LIST":
                     listRecord();
                     break;
 
@@ -46,14 +46,17 @@ public class Main {
 
 
     private static void createRecord() {
-        System.out.print("type: person");
+        System.out.print("Type: PERSON for new person\nType: NOTE for new note\nType: ALARM for new alarm\n");
         String type = scan.next();
         switch (type) {
-            case "person":
+            case "PERSON":
                 createPerson();
                 break;
-            case "note":
+            case "NOTE":
                 createNote();
+                break;
+            case "ALARM":
+                createAlarm();
                 break;
             default:
                 System.out.println("Error: Unknown method type");
@@ -61,21 +64,28 @@ public class Main {
         }
     }
 
-    private static void createNote() {
-        Note n = new Note();
-
-        n.askInfo();
-        records.add(n);
-    }
-
-
-    private static void createPerson() {
+       private static void createPerson() {
         Person p = new Person();
-
         p.askInfo();
         records.add(p);
     }
 
+    private static void createNote() {
+        Note n = new Note();
+        n.askInfo();
+        records.add(n);
+    }
+
+    private static void createRecord(Record r){
+        r.askInfo();
+        records.add(r)
+        }
+
+    private static void createAlarm() {
+        Alarm a = new Alarm();
+        a.askInfo();
+        records.add(a);
+    }
 
     private static void showHelp() {
         System.out.println("One day a great manual will be here");

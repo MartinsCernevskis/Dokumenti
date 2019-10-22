@@ -3,18 +3,18 @@ package com.company;
 
 public class Note extends Record {
 
-    private String input;
-
+    private String noteText;
+@Override
     public void askInfo() {
         System.out.print("Enter text");
-        input = Main.scan.next();
+        noteText = Main.scan.next();
     }
 
     public String getTeksts() {
-        return input;
+        return noteText;
     }
 
     public void setTeksts(String teksts) {
-        this.input = teksts;
+        this.noteText = teksts;
     }
 }

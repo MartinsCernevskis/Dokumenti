@@ -7,7 +7,7 @@ public class Person extends Record {
     private String phone;
 
 
-
+@Override
     public void askInfo(){
         System.out.println("Name ");
         name = Main.scan.next();
