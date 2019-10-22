@@ -3,11 +3,12 @@ package com.company;
 public class Alarm extends Note {
 
     private String time;
-@Override
+
+    @Override
     public void askInfo() {
-    super.askInfo();
-    System.out.print("Enter time");
-    time = Main.scan.next();
+        super.askInfo();
+        System.out.print("Enter time");
+        time = Main.scan.next();
 
     }
 
@@ -20,6 +21,7 @@ public class Alarm extends Note {
         this.time = time;
     }
 
+
     @Override
     public String toString() {
         return "Alarm{" +
@@ -28,6 +30,14 @@ public class Alarm extends Note {
                 ", time='" + getTime() + '\'' +
                 '}';
 
+
+    }
+
+    @Override
+    public boolean contains(String str) {
+        if (super.contains(str) || time.contains(str))
+            return true;
+        else return false;
     }
 }
 

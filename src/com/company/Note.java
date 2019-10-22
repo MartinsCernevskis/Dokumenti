@@ -4,11 +4,22 @@ package com.company;
 public class Note extends Record {
 
     private String noteText;
-@Override
+
+    @Override
     public void askInfo() {
         System.out.print("Enter text");
         noteText = Main.scan.next();
     }
+
+
+    @Override
+    public boolean contains(String str) {
+        if (noteText.contains(str)) {
+            return true;
+        } else return false;
+    }
+
+
 
     public String getTeksts() {
         return noteText;

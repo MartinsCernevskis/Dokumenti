@@ -10,6 +10,7 @@ public class Main {
 
 
     public static void main(String[] args) {
+        scan.useDelimiter("\n");
         System.out.println("Enter a command.\nType HELP for help.\nType CREATE to create new\nType LIST to create new list\nType EXIT for exit.\n");
         for (; ; ) {
             System.out.print("> ");
@@ -36,6 +37,12 @@ public class Main {
 
     }
 
+    private static void showHelp() {
+        System.out.println("One day a great manual will be here");
+    }
+
+
+
 
     private static void listRecord() {
         for (Record p : records) {
@@ -50,13 +57,13 @@ public class Main {
         String type = scan.next();
         switch (type) {
             case "PERSON":
-                createPerson();
+                createRecord(new Person());
                 break;
             case "NOTE":
-                createNote();
+                createRecord(new Note());
                 break;
             case "ALARM":
-                createAlarm();
+                createRecord(new Alarm());
                 break;
             default:
                 System.out.println("Error: Unknown method type");
@@ -64,31 +71,30 @@ public class Main {
         }
     }
 
-       private static void createPerson() {
-        Person p = new Person();
-        p.askInfo();
-        records.add(p);
-    }
-
-    private static void createNote() {
-        Note n = new Note();
-        n.askInfo();
-        records.add(n);
-    }
+//       private static void createPerson() {
+//        Person p = new Person();
+//        p.askInfo();
+//        records.add(p);
+//    }
+//
+//    private static void createNote() {
+//        Note n = new Note();
+//        n.askInfo();
+//        records.add(n);
+//    }
+//
+//       private static void createAlarm() {
+//        Alarm a = new Alarm();
+//        a.askInfo();
+//        records.add(a);
+//    }
 
     private static void createRecord(Record r){
         r.askInfo();
-        records.add(r)
-        }
-
-    private static void createAlarm() {
-        Alarm a = new Alarm();
-        a.askInfo();
-        records.add(a);
+        records.add(r);
     }
 
-    private static void showHelp() {
-        System.out.println("One day a great manual will be here");
-    }
+
+
 
 }

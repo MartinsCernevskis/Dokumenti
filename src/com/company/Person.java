@@ -7,8 +7,8 @@ public class Person extends Record {
     private String phone;
 
 
-@Override
-    public void askInfo(){
+    @Override
+    public void askInfo() {
         System.out.println("Name ");
         name = Main.scan.next();
         System.out.println("Surename ");
@@ -17,6 +17,19 @@ public class Person extends Record {
         phone = Main.scan.next();
 
     }
+
+
+
+    @Override
+    public boolean contains(String str) {
+        return super.contains(str)
+        name.contains(str) || surname.contains(str) || phone.contains(str)
+            return true;
+
+        return false;
+    }
+
+
 
 
 

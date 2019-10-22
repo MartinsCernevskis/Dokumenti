@@ -1,11 +1,16 @@
 package com.company;
 
+import java.util.Scanner;
+
 public abstract class Record {
 
     private static int counter = 0;
     private int id;
 
-    public Record(){
+
+    Scanner scan = new Scanner(System.in);
+
+    public Record() {
         Record.counter++;
         id = counter;
     }
@@ -15,5 +20,9 @@ public abstract class Record {
     }
 
     public abstract void askInfo();
+
+    public abstract boolean contains(String str);
+    String strID = Integer.toString(id);
+
 
 }
