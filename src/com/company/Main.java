@@ -1,5 +1,6 @@
 package com.company;
 
+import java.net.IDN;
 import java.util.ArrayList;
 import java.util.Scanner;
 
@@ -28,7 +29,12 @@ public class Main {
                 case "LIST":
                     listRecord();
                     break;
-
+                case "FIND":
+                    findRecords();
+                    break;
+                case "DELETE":
+                    deleteRecord();
+                    break;
                 default:
                     System.out.println("Error: unknown command");
             }
@@ -46,7 +52,6 @@ public class Main {
 
     private static void listRecord() {
         for (Record p : records) {
-//            System.out.printf("%s %s %s\n", p.getId(), p.getName(), p.getSurname(), p.getPhone());
             System.out.println(p);
         }
     }
@@ -65,11 +70,43 @@ public class Main {
             case "ALARM":
                 createRecord(new Alarm());
                 break;
+
             default:
                 System.out.println("Error: Unknown method type");
 
         }
     }
+    private static void findRecords(){
+        System.out.println("substring");
+        String str =  scan.next();
+        for(Record r : records) {
+            if(r.contains(str));{
+                System.out.println(r);
+            }
+        }
+    }
+
+
+
+    private static void deleteRecord(){
+
+        System.out.println("record ID: ");
+        int recordID = scan.nextInt();
+
+        for (
+                int i = 0;
+                i < records.size();
+                i++) {
+
+            Record r = records.get(i);
+
+            if (r.getId() == recordID ){
+                records.remove(i);
+                break;
+            }
+
+        }
+}
 
 //       private static void createPerson() {
 //        Person p = new Person();

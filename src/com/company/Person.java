@@ -18,16 +18,20 @@ public class Person extends Record {
 
     }
 
-
-
     @Override
     public boolean contains(String str) {
-        return super.contains(str)
-        name.contains(str) || surname.contains(str) || phone.contains(str)
-            return true;
-
         return false;
     }
+
+
+//    @Override
+//    public boolean contains(String str) {
+//        return super.contains(str)
+//        name.contains(str) || surname.contains(str) || phone.contains(str)
+//            return true;
+//        }
+//        return false;
+//    }
 
 
 
