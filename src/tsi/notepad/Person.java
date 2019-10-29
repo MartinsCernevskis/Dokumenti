@@ -1,41 +1,27 @@
-package com.company;
+package tsi.notepad;
 
 public class Person extends Record {
-
     private String name;
     private String surname;
     private String phone;
-
+    private String email;
 
     @Override
     public void askInfo() {
-        System.out.println("Name ");
-        name = Main.scan.next();
-        System.out.println("Surename ");
-        surname = Main.scan.next();
-        System.out.println("Phone ");
-        phone = Main.scan.next();
-
+        name = Asker.askString("name");
+        surname = Asker.askString("surname");
+        phone = Asker.askString("phone");
+        email = Asker.askString("email");
     }
 
     @Override
     public boolean contains(String str) {
-        return false;
+        return super.contains(str)
+                || name.contains(str)
+                || surname.contains(str)
+                || phone.contains(str)
+                || email.contains(str);
     }
-
-
-//    @Override
-//    public boolean contains(String str) {
-//        return super.contains(str)
-//        name.contains(str) || surname.contains(str) || phone.contains(str)
-//            return true;
-//        }
-//        return false;
-//    }
-
-
-
-
 
     public String getName() {
         return name;
@@ -61,6 +47,14 @@ public class Person extends Record {
         this.phone = phone;
     }
 
+    public String getEmail() {
+        return email;
+    }
+
+    public void setEmail(String email) {
+        this.email = email;
+    }
+
     @Override
     public String toString() {
         return "Person{" +
@@ -68,6 +62,7 @@ public class Person extends Record {
                 ", name='" + name + '\'' +
                 ", surname='" + surname + '\'' +
                 ", phone='" + phone + '\'' +
+                ", email='" + email + '\'' +
                 '}';
     }
 }
