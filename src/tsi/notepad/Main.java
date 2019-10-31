@@ -1,120 +1,187 @@
-package tsi.notepad;
 
+package javacourses;
+
+import java.time.LocalDate;
+import java.time.LocalTime;
+import java.time.format.DateTimeFormatter;
+import java.time.format.DateTimeParseException;
 import java.util.ArrayList;
 import java.util.Scanner;
+import java.util.TreeMap;
 
 public class Main {
-    static ArrayList<Record> records = new ArrayList<>();
+    public static final String TIME_FORMAT = "HH:mm";
+    public static final DateTimeFormatter TIME_FORMATTER
+            = DateTimeFormatter.ofPattern(TIME_FORMAT);
+    public static final String DATE_FORMAT = "dd/MM/yyyy";
+    public static final DateTimeFormatter DATE_FORMATTER
+            = DateTimeFormatter.ofPattern(DATE_FORMAT);
+
+
+    static Scanner scanner = new Scanner(System.in);
+    static TreeMap<Integer, Record> recordsMap = new TreeMap<>();
 
     public static void main(String[] args) {
-        System.out.println("Enter a command. Type 'help' for help.");
+        commandLoop();
+    }
+
+    private static void commandLoop() {
+        System.out.println("This is your personal notebook. Enter 'help' for all available commands");
         for (; ; ) {
-            String cmd = Asker.askString("cmd");
-            switch (cmd) {
+            String cmd = askString("cmd> ");
+
+            switch (cmd.toLowerCase()) {
                 case "exit":
-                    System.out.println("Good bye!");
                     return;
+                case "create":
+                    create();
+                    break;
+                case "find":
+                    find();
+                    break;
+                case "list":
+                    list();
+                    break;
+                case "expired":
+                    findExpired();
+                    break;
                 case "help":
                     showHelp();
                     break;
-                case "create":
-                    createRecord();
-                    break;
-                case "list":
-                    listRecords();
-                    break;
-                case "find":
-                    findRecords();
-                    break;
-                case "delete":
-                    deleteRecord();
-                    break;
-                case "expired":
-                    listExpiredRecords();
-                    break;
-                case "dismiss":
-                    dismiss();
+                case "show":
+                    showById();
                     break;
                 default:
-                    System.out.println("Error: Unknown command");
+                    System.out.println("Unknown command. Enter 'help' for all available options");
             }
         }
     }
 
-    private static void dismiss() {
-        int id = Asker.askInt("id");
+    private static void showById() {
+        String strId = askString("Enter id of record to show: ");
+        int id = Integer.parseInt(strId);
+        Record r = recordsMap.get(id);
+        System.out.println(r);
+    }
 
-        for(Record r : records){
-            if(r instanceof Expirable && r.getId() == id){
-                Expirable e = (Expirable) r;
-                e.dismiss();
+
+    private static void findExpired() {
+        for (Record r : recordsMap.values()) {
+            if (r instanceof Expirable) {
+                Expirable expirable = (Expirable) r;
+                if (expirable.isExpired()) {
+                    System.out.println(expirable);
                 }
             }
         }
+    }
 
-    private static void listExpiredRecords() {
-        for(Record r : records){
-            if(r instanceof Expirable){
-                Expirable e = (Expirable) r;
-                if (e.isExpired()){
-                    System.out.print(r);
-                }
-            }
+    private static void list() {
+        for (Record r : recordsMap.values()) {
+            System.out.println(r);
         }
     }
 
-    private static void deleteRecord() {
-        int id = Asker.askInt("id");
-        for (int i = 0; i < records.size(); i++) {
-            Record r = records.get(i);
-            if (r.getId() == id) {
-                records.remove(i);
-                break;
-            }
-        }
-    }
-
-    private static void findRecords() {
-        String str = Asker.askString("substring");
-        for (Record r : records) {
-            if (r.contains(str)) {
+    private static void find() {
+        String part = askString("What to find? ");
+        for (Record r : recordsMap.values()) {
+            if (r.contains(part)) {
                 System.out.println(r);
             }
         }
     }
 
-    private static void listRecords() {
-        for (Record r : records) {
-            System.out.println(r);
+    private static void create() {
+        for (; ; ) {
+            System.out.println("Enter type of the record to create. 'help' for all available options");
+            String type = askString("type: ");
+
+            switch (type.toLowerCase()) {
+                case "exit":
+                    return;
+                case "person":
+                    addRecord(new Person());
+                    return;
+                case "note":
+                    addRecord(new Note());
+                    return;
+                case "alarm":
+                    addRecord(new Alarm());
+                    return;
+                case "reminder":
+                    addRecord(new Reminder());
+                    return;
+                case "help":
+                    showHelpCreate();
+                    break;
+                default:
+                    System.out.println("Unknown type");
+            }
         }
     }
 
-    private static void createRecord() {
-        String type = Asker.askString("type");
-        switch (type) {
-            case "person":
-                createRecord(new Person());
-                break;
-            case "note":
-                createRecord(new Note());
-                break;
-            case "alarm":
-                createRecord(new Alarm());
-                break;
-            case "reminder":
-                createRecord(new Reminder());
-                break;
-            default:
-                System.out.println("Error: Unknown record type");
-        }
+    private static void addRecord(Record record) {
+        record.askUserData();
+        int id = record.getId();
+        recordsMap.put(id, record);
+        System.out.println("Created!");
     }
 
-    private static void createRecord(Record r) {
-        r.askInfo();
-        records.add(r);
+    private static void showHelpCreate() {
+        System.out.println("\tperson   creates a new phone book record");
+        System.out.println("\tnote     creates a new note record");
+        System.out.println("\talarm    creates a new alarm");
+        System.out.println("\treminder creates a new reminder");
+        System.out.println("\texit     returns to main menu");
     }
 
     private static void showHelp() {
-        System.out.println("One day here will be a great manual. Eventually.");
+        System.out.println("\thelp    shows this help");
+        System.out.println("\tcreate  creates a new record");
+        System.out.println("\tlist    lists all records");
+        System.out.println("\tfind    searches for text");
+        System.out.println("\tshow    shows record by id");
+        System.out.println("\texpired list expired records");
+        System.out.println("\texit    exit from the program");
+    }
+
+    public static String askString(String message) {
+        System.out.print(message);
+        String str = scanner.next();
+        if (str.startsWith("\"")) {
+            ArrayList<String> list = new ArrayList<>();
+            list.add(str);
+            while (!str.endsWith("\"")) {
+                str = scanner.next();
+                list.add(str);
+            }
+            str = String.join(" ", list);
+            str = str.substring(1, str.length() - 1);
+        }
+        return str;
+    }
+
+    public static LocalTime askTime(String message) {
+        for (; ; ) {
+            String strTime = askString(message + "(" + TIME_FORMAT + ") ");
+            try {
+                LocalTime time = LocalTime.parse(strTime, TIME_FORMATTER);
+                return time;
+            } catch (DateTimeParseException e) {
+                System.out.println("Time isn't in right format");
+            }
+        }
+    }
+
+    public static LocalDate askDate(String message) {
+        for (; ; ) {
+            String strDate = askString(message + "(" + DATE_FORMAT + ") ");
+            try {
+                LocalDate date = LocalDate.parse(strDate, DATE_FORMATTER);
+                return date;
+            } catch (DateTimeParseException e) {
+                System.out.println("Date isn't in right format");
+            }
+        }
     }
 }
